@@ -7,8 +7,10 @@
       .slug(params.slug)
       .then((data) => (data.length > 0 ? data[0] : null));
 
+    const comments = await wp.comments().param("post", post.id);
+
     if (post) {
-      return { post };
+      return { post, comments };
     } else {
       this.error(res.status, data.message);
     }
@@ -67,9 +69,12 @@
 </div>
 
 {#if comments.length > 0}
-  <ul class="comments">
+  <div class="comments">
+    <h3>Comments</h3>
     {#each comments as comment}
-      <li />
+      <div>
+        {@html comment.content.rendered}
+      </div>
     {/each}
-  </ul>
+  </div>
 {/if}
