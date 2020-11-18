@@ -1,6 +1,6 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "sveltepress",
+  "description": "Svelte frontend app connected to some WordPress",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",
