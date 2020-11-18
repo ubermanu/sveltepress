@@ -1,10 +1,5 @@
 <script context="module">
-  import WPAPI from "wpapi";
-
-  // TODO: Create a store to access this endpoint
-  var wp = new WPAPI({
-    endpoint: "http://localhost:8080/index.php?rest_route=",
-  });
+  import { wp } from "../wordpress";
 
   export async function preload() {
     // TODO: Add pagination support
