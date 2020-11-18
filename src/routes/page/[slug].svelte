@@ -1,12 +1,19 @@
 <script context="module">
-  export async function preload({ params }) {
-    // the `slug` parameter is available because
-    // this file is called [slug].svelte
-    const res = await this.fetch(`page/${params.slug}.json`);
-    const data = await res.json();
+  import WPAPI from "wpapi";
 
-    if (res.status === 200) {
-      return { page: data };
+  // TODO: Create a store to access this endpoint
+  var wp = new WPAPI({
+    endpoint: "http://localhost:8080/index.php?rest_route=",
+  });
+
+  export async function preload({ params }) {
+    const page = await wp
+      .pages()
+      .slug(params.slug)
+      .then((data) => (data.length > 0 ? data[0] : null));
+
+    if (page) {
+      return { page };
     } else {
       this.error(res.status, data.message);
     }
