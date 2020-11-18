@@ -5,12 +5,14 @@
     const post = await wp
       .posts()
       .slug(params.slug)
+      .embed()
       .then((data) => (data.length > 0 ? data[0] : null));
 
-    const comments = await wp.comments().param("post", post.id);
+    const categories = post["_embedded"]["wp:term"][0];
+    const comments = post["_embedded"]["replies"][0];
 
     if (post) {
-      return { post, comments };
+      return { post, categories, comments };
     } else {
       this.error(res.status, data.message);
     }
@@ -19,6 +21,7 @@
 
 <script>
   export let post;
+  export let categories = [];
   export let comments = [];
 </script>
 
@@ -63,6 +66,16 @@
 </svelte:head>
 
 <h1>{post.title.rendered}</h1>
+
+{#if categories.length > 0}
+  <div class="categories">
+    {#each categories as category}
+      <small>
+        {@html category.name}
+      </small>
+    {/each}
+  </div>
+{/if}
 
 <div class="content">
   {@html post.content.rendered}
