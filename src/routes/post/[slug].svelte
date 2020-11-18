@@ -1,93 +1,93 @@
 <script context="module">
-  import { wp } from "../../wordpress";
+    import { wp } from '../../wordpress'
 
-  export async function preload({ params }) {
-    const post = await wp
-      .posts()
-      .slug(params.slug)
-      .embed()
-      .then((data) => (data.length > 0 ? data[0] : null));
+    export async function preload({ params }) {
+        const post = await wp
+            .posts()
+            .slug(params.slug)
+            .embed()
+            .then((data) => (data.length > 0 ? data[0] : null))
 
-    const categories = post["_embedded"]["wp:term"][0];
-    const comments = post["_embedded"]["replies"][0];
+        const categories = post['_embedded']['wp:term'][0]
+        const comments = post['_embedded']['replies'][0]
 
-    if (post) {
-      return { post, categories, comments };
-    } else {
-      this.error(res.status, data.message);
+        if (post) {
+            return { post, categories, comments }
+        } else {
+            this.error(res.status, data.message)
+        }
     }
-  }
 </script>
 
 <script>
-  export let post;
-  export let categories = [];
-  export let comments = [];
+    export let post
+    export let categories = []
+    export let comments = []
 </script>
 
 <style>
-  /*
-		By default, CSS is locally scoped to the component,
-		and any unused styles are dead-code-eliminated.
-		In this page, Svelte can't know which elements are
-		going to appear inside the {{{post.html}}} block,
-		so we have to use the :global(...) modifier to target
-		all elements inside .content
-	*/
-  .content :global(h2) {
-    font-size: 1.4em;
-    font-weight: 500;
-  }
+    /*
+          By default, CSS is locally scoped to the component,
+          and any unused styles are dead-code-eliminated.
+          In this page, Svelte can't know which elements are
+          going to appear inside the {{{post.html}}} block,
+          so we have to use the :global(...) modifier to target
+          all elements inside .content
+      */
+    .content :global(h2) {
+        font-size: 1.4em;
+        font-weight: 500;
+    }
 
-  .content :global(pre) {
-    background-color: #f9f9f9;
-    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.05);
-    padding: 0.5em;
-    border-radius: 2px;
-    overflow-x: auto;
-  }
+    .content :global(pre) {
+        background-color: #f9f9f9;
+        box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.05);
+        padding: 0.5em;
+        border-radius: 2px;
+        overflow-x: auto;
+    }
 
-  .content :global(pre) :global(code) {
-    background-color: transparent;
-    padding: 0;
-  }
+    .content :global(pre) :global(code) {
+        background-color: transparent;
+        padding: 0;
+    }
 
-  .content :global(ul) {
-    line-height: 1.5;
-  }
+    .content :global(ul) {
+        line-height: 1.5;
+    }
 
-  .content :global(li) {
-    margin: 0 0 0.5em 0;
-  }
+    .content :global(li) {
+        margin: 0 0 0.5em 0;
+    }
 </style>
 
 <svelte:head>
-  <title>{post.title.rendered}</title>
+    <title>{post.title.rendered}</title>
 </svelte:head>
 
 <h1>{post.title.rendered}</h1>
 
 {#if categories.length > 0}
-  <div class="categories">
-    {#each categories as category}
-      <small>
-        {@html category.name}
-      </small>
-    {/each}
-  </div>
+    <div class="categories">
+        {#each categories as category}
+            <small>
+                {@html category.name}
+            </small>
+        {/each}
+    </div>
 {/if}
 
 <div class="content">
-  {@html post.content.rendered}
+    {@html post.content.rendered}
 </div>
 
 {#if comments.length > 0}
-  <div class="comments">
-    <h3>Comments</h3>
-    {#each comments as comment}
-      <div>
-        {@html comment.content.rendered}
-      </div>
-    {/each}
-  </div>
+    <div class="comments">
+        <h3>Comments</h3>
+        {#each comments as comment}
+            <div>
+                {@html comment.content.rendered}
+            </div>
+        {/each}
+    </div>
 {/if}

@@ -1,66 +1,66 @@
 <script context="module">
-  import { wp } from "../../wordpress";
+    import { wp } from '../../wordpress'
 
-  export async function preload({ params }) {
-    const page = await wp
-      .pages()
-      .slug(params.slug)
-      .then((data) => (data.length > 0 ? data[0] : null));
+    export async function preload({ params }) {
+        const page = await wp
+            .pages()
+            .slug(params.slug)
+            .then((data) => (data.length > 0 ? data[0] : null))
 
-    if (page) {
-      return { page };
-    } else {
-      this.error(res.status, data.message);
+        if (page) {
+            return { page }
+        } else {
+            this.error(res.status, data.message)
+        }
     }
-  }
 </script>
 
 <script>
-  export let page;
+    export let page
 </script>
 
 <style>
-  /*
-	By default, CSS is locally scoped to the component,
-	and any unused styles are dead-code-eliminated.
-	In this page, Svelte can't know which elements are
-	going to appear inside the {{{post.html}}} block,
-	so we have to use the :global(...) modifier to target
-	all elements inside .content
-*/
-  .content :global(h2) {
-    font-size: 1.4em;
-    font-weight: 500;
-  }
+    /*
+      By default, CSS is locally scoped to the component,
+      and any unused styles are dead-code-eliminated.
+      In this page, Svelte can't know which elements are
+      going to appear inside the {{{post.html}}} block,
+      so we have to use the :global(...) modifier to target
+      all elements inside .content
+  */
+    .content :global(h2) {
+        font-size: 1.4em;
+        font-weight: 500;
+    }
 
-  .content :global(pre) {
-    background-color: #f9f9f9;
-    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.05);
-    padding: 0.5em;
-    border-radius: 2px;
-    overflow-x: auto;
-  }
+    .content :global(pre) {
+        background-color: #f9f9f9;
+        box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.05);
+        padding: 0.5em;
+        border-radius: 2px;
+        overflow-x: auto;
+    }
 
-  .content :global(pre) :global(code) {
-    background-color: transparent;
-    padding: 0;
-  }
+    .content :global(pre) :global(code) {
+        background-color: transparent;
+        padding: 0;
+    }
 
-  .content :global(ul) {
-    line-height: 1.5;
-  }
+    .content :global(ul) {
+        line-height: 1.5;
+    }
 
-  .content :global(li) {
-    margin: 0 0 0.5em 0;
-  }
+    .content :global(li) {
+        margin: 0 0 0.5em 0;
+    }
 </style>
 
 <svelte:head>
-  <title>{page.title.rendered}</title>
+    <title>{page.title.rendered}</title>
 </svelte:head>
 
 <h1>{page.title.rendered}</h1>
 
 <div class="content">
-  {@html page.content.rendered}
+    {@html page.content.rendered}
 </div>
